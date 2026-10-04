@@ -1,0 +1,6 @@
+{
+  "name": "LiveChat - Real-Time WebSocket Messaging",
+  "description": "Full-stack real-time chat application featuring persistent WebSocket messaging, token-based handshake authentication, room segregation, dynamic presence, and typing indicators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
