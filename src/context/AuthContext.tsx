@@ -58,20 +58,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     async function initAuth() {
-      const savedToken = localStorage.getItem('chat_token');
-      if (savedToken) {
-        try {
-          const { user } = await api.verifyMe(savedToken);
-          setUser(user);
-          setToken(savedToken);
-          socketService.connect(savedToken);
-        } catch {
+      try {
+        const savedToken = localStorage.getItem('chat_token');
+        if (savedToken) {
+          try {
+            const { user } = await api.verifyMe(savedToken);
+            setUser(user);
+            setToken(savedToken);
+            socketService.connect(savedToken);
+          } catch {
+            await login('maaz_awan');
+          }
+        } else {
           await login('maaz_awan');
         }
-      } else {
-        await login('maaz_awan');
+      } catch (err) {
+        console.error('Initial authentication fallback error:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     initAuth();

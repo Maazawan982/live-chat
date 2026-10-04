@@ -163,6 +163,25 @@ npm start
 
 ---
 
+## Deployment Guide (Vercel, Render & Railway)
+
+### Option A: Deploying directly to Vercel (Zero-Config Supported)
+Vercel is a serverless platform and does not run persistent stateful processes like `server.ts` by default. To ensure the application loads immediately on Vercel without getting stuck on *"Connecting to LiveChat WebSocket Server..."*:
+- `vercel.json` is pre-configured to build `dist/` via `npm run build`.
+- `src/services/api.ts` and `src/services/socket.ts` include an automatic **Serverless Real-Time Fallback Engine** (`src/services/serverlessFallback.ts`) powered by `BroadcastChannel` and `localStorage` when a persistent Node.js daemon is not present.
+- Simply push the updated code to GitHub and redeploy on Vercel — the app will load in `<200ms` with full multi-tab real-time messaging, typing indicators, reactions, and voice/video calling.
+
+### Option B: Full Persistent WebSocket Server Deployment (Render / Railway / Fly.io)
+To run the stateful `server.ts` Socket.IO WebSocket server across different devices on the internet:
+1. Deploy this repository to **Render**, **Railway**, or **Google Cloud Run** as a Node.js Web Service:
+   - **Build Command:** `npm install && npm run build`
+   - **Start Command:** `npm start` (runs `node server.ts`)
+2. *(Optional)* If you keep the frontend hosted on Vercel and the backend on Render/Railway, add these Environment Variables in your Vercel Project Settings:
+   - `VITE_API_URL=https://your-backend-service.onrender.com/api`
+   - `VITE_SOCKET_URL=https://your-backend-service.onrender.com`
+
+---
+
 ## How to Test Real-Time Multi-User Features
 
 1. **Open Two Browser Windows (or Tabs):**

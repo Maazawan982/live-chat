@@ -27,7 +27,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, on
       setSocketDetails({
         id: socket.id || 'Pending Handshake',
         connected: socket.connected,
-        transport: socket.io?.engine?.transport?.name || 'websocket',
+        transport: (socket as any).io?.engine?.transport?.name || 'websocket',
       });
     }
   }, [isOpen]);
